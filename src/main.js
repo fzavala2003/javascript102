@@ -23,3 +23,45 @@ const itemData = {
         score: 36
     }
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Busca el elemento select en el DOM
+    const select = document.getElementById('items');
+    if (!select) return; // Si no existe, no hace nada
+
+    // Recorre los ítems y agrega una opción por cada uno
+    Object.entries(itemData).forEach(([key, item]) => {
+        const option = document.createElement('option');
+        option.textContent = item.name;
+        option.value = key; // Guarda la clave para identificar el ítem
+        select.appendChild(option);
+    });
+
+    // Evento para mostrar los datos del ítem seleccionado
+    select.addEventListener('change', function () {
+        const selectedKey = select.value;
+        const item = itemData[selectedKey];
+        if (!item) return;
+
+        document.getElementById('displayImage').src = item.image;
+        document.getElementById('photographer').value = item.photographer;
+        document.getElementById('description').value = item.description;
+        document.getElementById('score').value = item.score;
+    });
+
+    // Eventos para aumentar o disminuir el puntaje
+    document.getElementById('increaseScore').addEventListener('click', function () {
+        const selectedKey = select.value;
+        if (!itemData[selectedKey]) return;
+        itemData[selectedKey].score++;
+        document.getElementById('score').value = itemData[selectedKey].score;
+    });
+
+    document.getElementById('decreaseScore').addEventListener('click', function () {
+        const selectedKey = select.value;
+        if (!itemData[selectedKey]) return;
+        itemData[selectedKey].score--;
+        document.getElementById('score').value = itemData[selectedKey].score;
+    });
+});
+
